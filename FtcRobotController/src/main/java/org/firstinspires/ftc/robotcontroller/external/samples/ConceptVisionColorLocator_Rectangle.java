@@ -33,8 +33,10 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.opencv.ColorBlobLocatorProcessor;
 import org.firstinspires.ftc.vision.opencv.ColorRange;
+import org.firstinspires.ftc.vision.opencv.ColorSpace;
 import org.firstinspires.ftc.vision.opencv.ImageRegion;
 import org.opencv.core.RotatedRect;
+import org.opencv.core.Scalar;
 
 import java.util.List;
 
@@ -64,7 +66,6 @@ import java.util.List;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Disabled
 @TeleOp(name = "Concept: Color-Locator (Rectangle)", group = "Concept")
 public class ConceptVisionColorLocator_Rectangle extends LinearOpMode
 {
@@ -119,11 +120,12 @@ public class ConceptVisionColorLocator_Rectangle extends LinearOpMode
          *        "pixels" in the range of 2-4 are suitable for low res images.
          */
         ColorBlobLocatorProcessor colorLocator = new ColorBlobLocatorProcessor.Builder()
-                .setTargetColorRange(ColorRange.ARTIFACT_PURPLE)   // use a predefined color match
+                .setTargetColorRange(new ColorRange(ColorSpace.YCrCb,
+                                    new Scalar( 143, 102, 14),
+                                    new Scalar(232, 196, 86)))   // use a predefined color match
                 .setContourMode(ColorBlobLocatorProcessor.ContourMode.EXTERNAL_ONLY)
-                .setRoi(ImageRegion.asUnityCenterCoordinates(-0.75, 0.75, 0.75, -0.75))
                 .setDrawContours(true)   // Show contours on the Stream Preview
-                .setBlurSize(5)          // Smooth the transitions between different colors in image
+                .setBlurSize(0)          // Smooth the transitions between different colors in image
                 .build();
 
         /*
