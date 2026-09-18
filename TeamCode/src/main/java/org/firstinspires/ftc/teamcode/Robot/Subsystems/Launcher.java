@@ -15,8 +15,8 @@ public class Launcher {
 
     //turn on launch wheels
     public void launch() {
-        launchWheel1.setPower(0.97);
-        launchWheel2.setPower(0.95);
+        launchWheel1.setPower(1);
+        launchWheel2.setPower(1);
     }
 
     //turn off launch wheels
