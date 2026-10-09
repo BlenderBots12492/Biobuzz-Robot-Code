@@ -131,9 +131,7 @@ public class ConceptVisionColorLocator_Circle extends LinearOpMode {
          *        CLOSING:    Will Dilate and then Erode which will tend to fill in any small holes in blob edges.
          */
         ColorBlobLocatorProcessor colorLocator = new ColorBlobLocatorProcessor.Builder()
-                .setTargetColorRange(new ColorRange(ColorSpace.YCrCb,
-                        new Scalar( 143, 102, 14),
-                        new Scalar(232, 196, 86)))   // Use a predefined color match
+                .setTargetColorRange(ColorRange.RED)   // Use a predefined color match
                 .setContourMode(ColorBlobLocatorProcessor.ContourMode.EXTERNAL_ONLY)
                 .setDrawContours(true)   // Show contours on the Stream Preview
                 .setBoxFitColor(0)       // Disable the drawing of rectangles
