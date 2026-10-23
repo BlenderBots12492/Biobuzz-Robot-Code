@@ -27,6 +27,5 @@ public class Hive {
     }
 
     public void changeStatus() {
-        ourCell().ChangeTipStatus(tip.isTipping(teamColor));
     }
 }

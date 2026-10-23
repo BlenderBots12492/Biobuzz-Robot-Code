@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.Status;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 import static org.firstinspires.ftc.teamcode.Status.Teams.colors.BLUE;
 import static org.firstinspires.ftc.teamcode.Status.Teams.colors.RED;
 import static java.lang.Double.NaN;
@@ -15,7 +14,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import java.util.List;
 
 public class Tip {
-    private Limelight3A limelight;
+    public Limelight3A limelight;
 
     public int getTagId() {
         LLResult result = limelight.getLatestResult();
@@ -26,7 +25,7 @@ public class Tip {
 
         return tags.get(0).getFiducialId();
     }
-    public double getTagPitch() {
+    public double getTagAngle() {
         LLResult result = limelight.getLatestResult();
         if (result == null || !result.isValid()) return NaN;
 
@@ -36,55 +35,23 @@ public class Tip {
         Pose3D pose = tags.get(0).getTargetPoseRobotSpace();
         if (pose == null) return NaN;
 
-        return pose.getOrientation().getPitch(AngleUnit.DEGREES);
+        return pose.getOrientation().getRoll(AngleUnit.DEGREES);
     }
-    public Cell.tipStatus isTipping(Teams.colors teamcolor) {
-        if (teamcolor == RED) {
-            if (getTagId() == 30 || getTagId() == 31 || getTagId() == 32 || getTagId() == 33) {
-                telemetry.addData("angle", getTagPitch());
-                if (getTagPitch() >= 29 && getTagPitch() <= 31) {
-                    return null;
-                } else if (getTagPitch() <= -29 && getTagPitch() >= -31) {
-                    return null;
-                } else {
-                    return Cell.tipStatus.Tipping;
-                }
-            } else if (getTagId() == 34 || getTagId() == 35 || getTagId() == 36 || getTagId() == 37) {
-                telemetry.addData("angle", getTagPitch());
-                if (getTagPitch() <= -29 && getTagPitch() >= -31) {
-                    return null;
-                } else if (getTagPitch() >= 29 && getTagPitch() <= 31) {
-                    return null;
-                } else {
-                    return Cell.tipStatus.Tipping;
-                }
-            } else if (getTagPitch() == -1) {
-                return null;
-            }
-        }
-        if (teamcolor == BLUE) {
-            if (getTagId() == 45 || getTagId() == 44 || getTagId() == 43 || getTagId() == 42) {
-                telemetry.addData("angle", getTagPitch());
-                if (getTagPitch() >= 29 && getTagPitch() <= 31) {
-                    return null;
-                } else if (getTagPitch() <= -29 && getTagPitch() >= -31) {
-                    return null;
-                } else {
-                    return Cell.tipStatus.Tipping;
-                }
-            } else if (getTagId() == 38 || getTagId() == 39 || getTagId() == 40 || getTagId() == 41) {
-                telemetry.addData("angle", getTagPitch());
-                if (getTagPitch() <= -29 && getTagPitch() >= -31) {
-                    return null;
-                } else if (getTagPitch() >= 29 && getTagPitch() <= 31) {
-                    return null;
-                } else {
-                    return Cell.tipStatus.Tipping;
-                }
-            } else if (getTagPitch() == -1) {
-                return null;
-            }
-        }
+
+    public int getSide() {
+        if (getTagId() == 30 || getTagId() == 31 || getTagId() == 32 || getTagId() == 33) {return 1;}
+        if (getTagId() == 34 || getTagId() == 35 || getTagId() == 36 || getTagId() == 37) {return 2;}
+        if (getTagId() == 38 || getTagId() == 39 || getTagId() == 40 || getTagId() == 41) {return 3;}
+        if (getTagId() == 42 || getTagId() == 43 || getTagId() == 44 || getTagId() == 45) {return 4;}
+        return 0;
+    }
+
+    public Cell.tipStatus whatSideUp() {
+        if (getSide() == 1 && getTagAngle() <= -25 && getTagAngle() >= -32) {return Cell.tipStatus.red1up;}
+        if (getSide() == 2 && getTagAngle() >= 25 && getTagAngle() <= 32) {return Cell.tipStatus.red2up;}
+        if (getSide() == 3 && getTagAngle() <= -30 && getTagAngle() >= -37) {return Cell.tipStatus.blue1up;}
+        // fix blue 2 up tuning
+        if (getSide() == 4 && getTagAngle() >= -20 && getTagAngle() <= -41.5) {return Cell.tipStatus.blue2up;}
         return null;
     }
 

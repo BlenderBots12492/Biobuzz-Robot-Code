@@ -13,6 +13,13 @@ public class TestDrive extends LinearOpMode {
         waitForStart();
         while (opModeIsActive()) {
             rbot.chassis.setPowers(-gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x);
+            if (gamepad1.rightBumperWasPressed()) {
+                if (rbot.intake.getPower() <= 0.1 && rbot.intake.getPower() >= -0.1) {
+                    rbot.intake.intakeOn();
+                } else {
+                    rbot.intake.intakeOff();
+                }
+            }
         }
     }
 

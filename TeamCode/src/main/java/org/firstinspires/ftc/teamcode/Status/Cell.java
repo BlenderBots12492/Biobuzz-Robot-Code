@@ -4,7 +4,10 @@ public class Cell {
     public enum tipStatus {
         LoadingZoneSides,
         GardenSides,
-        Tipping
+        red1up,
+        red2up,
+        blue1up,
+        blue2up
     }
     public Teams.colors color;
     public tipStatus ActiveSide;
@@ -12,16 +15,10 @@ public class Cell {
     public Cell(Teams.colors cellColor) {
         color = cellColor;
         ActiveSide = tipStatus.GardenSides;
-        PreviousSide = tipStatus.Tipping;
     }
     public void ChangeTipStatus(tipStatus newStatus) {
         if (newStatus == ActiveSide) {
             return;
-        }
-        if (newStatus == tipStatus.Tipping) {
-            PreviousSide = ActiveSide;
-        } else {
-            ActiveSide = newStatus;
         }
 
     }
